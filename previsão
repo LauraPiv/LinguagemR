@@ -1,0 +1,59 @@
+#corrplot e scatterplo3D
+#database
+dados <- dados <- data.frame(horas_estudo = c(4, 6, 3, 5, 7),
+                             horas_sono = c(7, 6, 8, 7, 6),
+                             pontuacao = c(85, 90, 75, 80, 95))
+plot(dados)
+cov(dados)
+cor(dados)
+corrplot(cor(dados), method="ellipse")
+#O estudo de associaçao sugere que a correlação entre as variaveis
+#Hestudo e Hsono é muito forte e inversamente proporcional
+#indicando uma tendencia de que as horas de estudo aumentam, 
+#as horas de sono tendem a diminuir
+
+#correlaçao entre hestudo e pontuação é muito forte é
+#diretamente proporcional, indicando uma tendencia de que, 
+#quando as hestudos aumentam, a pontuaçao vai aumnetar
+
+#correlaçao entre hsono e pontuação é muito forte é
+#diretamente proporcional, indicando uma tendencia de que, 
+#quando as hsono aumentam, a pontuaçao vai diminuir
+
+modelo <- lm(pontuacao ~ horas_estudo + horas_sono, data = dados)
+
+#pontuaçao - variavel dependente
+#hestudo e hsono independentes
+graph <- scatterplot3d(dados$pontuacao ~
+                       dados$horas_estudo + dados$horas_sono,
+                       pch = 16, angle = 200
+                       , color = "steelblue", 
+                       box = TRUE,
+                       xlab="Horas Estudo", ylab="Horas Sono", 
+                       zlab="Pontuação")
+graph$plane3d(modelo, col="black", draw_polygon =TRUE)
+
+summary(modelo)
+
+#d) 0,7867 indicando que as variaveis hestudos e hsono explicam ate
+#78% a pontuação
+# pvalue = 0.1067 do teste F é maior q 5% indicando que o modelo
+#n é significativo
+
+nova_obs <- data.frame(horas_estudo = 10,
+                       horas_sono = 8)
+previsao <- predict(modelo, newdata = nova_obs)
+previsao
+
+#tidyverse e corrplot
+#puxar a data base
+data("mtcars")
+#scatterplot
+plot(mtcars)
+#matriz cov
+cov(mtcars)
+#matriz correlaçao
+cor(mtcars)
+#grafico correlaçao
+corrplot(cor(mtcars), method="ellipse")
+#quanto mais fina a bola mais relaçao
