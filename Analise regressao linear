@@ -1,0 +1,157 @@
+#montar
+Dados <- data.frame(Qtd_Poluente = c(1, 2, 3, 4,
+                                     5, 6), Dano_Eco = c(3, 6, 7, 10, 10, 12))
+
+#grafico dispersao
+plot(Dados$Qtd_Poluente, Dados$Dano_Eco)
+#a nuvem de pontos de pontos indica que as variaveis dano ecologico e a quantidade de poluentes tendem a estar associadas diretamente proporcional
+
+#covariancia
+cov(Dados$Qtd_Poluente, Dados$Dano_Eco)
+#o resultado ositivo indica a associacao entre as variaveis é diretamente proporcional
+
+#coeficiente de corelacao linear de pearson 
+cor(Dados$Qtd_Poluente, Dados$Dano_Eco)
+#as variaveis possuem uma correlacao classificada como muito forte
+#podendo dar continuidade ao modelo de regressao
+corrplot(cor(Dados))
+
+#b)
+plot(Dados$Qtd_Poluente, Dados$Dano_Eco,
+     xlab = "Quantidade de Poluentes",
+     ylab = "Dano Ecológico",
+     main = "Gráfico de Dispersão com Reta de
+Regressão")
+
+modelo <- lm(Dano_Eco ~ Qtd_Poluente, data =
+               Dados)
+abline(modelo, col = "red")
+
+#c)
+summary(modelo)
+#dano ecologico = 2+ 1,7143. quantidade de poluente + E
+
+#d) 
+#R² = 0,9524 indica que o modelo se ajustou bem,
+#a variavel quantidade de oluentes explica95,24%
+#resultado do dano ecologico,ou, de forma ajustada,
+#exlica 94,04% o dano ecologico
+
+#teste F : o p-value do teste F resultou em 0,0008642, menor do que
+# 5%, o que indica que a hipotese nula foi rejeitada, ou seja o 
+#modelo é significativo
+
+#e) Previsão
+nova_obs <- data.frame(Qtd_Poluente = 9)
+previsão <- predict(modelo, newdata = nova_obs)
+previsão
+# Se a quantidade de poluente foi 9ug/L, espera-se
+# que o dano ecologico seja de 17.42857, sendo classificado como 18. 
+
+#exemplo 2 
+#MONTAGEM DA BASE DE DADOS
+dados1<- data.frame(km_percorrido=c(10,15,8,10,25),
+                    tempo_gasto=c(0.5,0.7,0.4,1.0,1.2))
+dados1
+
+#a) Estudo de associacao entre as variaveis
+#grafico de dispersao
+plot(dados1$km_percorrido, dados1$tempo_gasto)
+#a nuvem de pontos sugere que as variaveis km percorrido e 
+#tempo gasto estao associadas de modo diretamente proporcional.
+
+#Covariancia:
+cov(dados1$km_percorrido, dados1$tempo_gasto)
+#o resultado positivo da covariancia indica que, quant maior for 
+#o tempo gasto, maior tende a ser o km percorrido. 
+
+#correlacao linear de Pearson;
+cor(dados1$km_percorrido, dados1$tempo_gasto)
+# a correlacao de pearson resultou em 0.75, indicando que
+#as variaveis estao correlacionadas de modo muito forte
+
+#grafico e correlacao linear de pearson;
+corrplot(cor(dados1), method='pie')
+
+#b) incluir a reta da regressao no gafico de dispersao:
+plot(dados1$km_percorrido, dados1$tempo_gasto,
+     xlab="km percorrido",
+     ylab="tempo gasto",
+     main="grafico de dispersao variaveis")
+modelo <- lm(tempo_gasto ~ km_percorrido, data =
+               dados1)
+abline(modelo, col = "red")
+#c)
+summary(modelo)
+#equacao modelo
+#tempo gasto = 0.25539 + 0.03710 x km percorrido + E
+
+#d)analise do ajuste do modelo
+#coeficiente de determinaçao (R²): 0.5763
+# a variavel km percorrido  explica 57,63% o tempo gasto
+
+#p-value do teste F de Fisher-Snedecor: 
+# como pvalue< 5%, rejeitamos Ho, ou seja, 
+#o modelo é significativo 
+
+#e) se um ciclista percorrer 32km, qual o tempo esperado que ele gastara?
+nova_obs<- data.frame(km_percorrido=32)
+
+previsao<-  predict(modelo,newdata=nova_obs)
+previsao
+
+#espera se que ele gaste aproximadamente 1,44 u.t para percorrer 32km.
+
+#exercicio 
+dados2<- data.frame(horas_tv=c(3,4,2,5,1),
+                    horas_atividade=c(10,8,12,7,15))
+dados2
+
+#a)grafico dispersao
+plot(dados2$horas_tv, dados2$horas_atividade)
+#a nuvem de pontos de pontos indica que as variaveis dano ecologico
+#e a quantidade de poluentes tendem a estar associadas
+#diretamente proporcional
+
+#covariancia
+cov(dados2$horas_tv, dados2$horas_atividade)
+# o resultado ositivo indica a associacao entre as variaveis
+#é diretamente proporcional
+
+#coeficiente de corelacao linear de pearson 
+cor(dados2$horas_tv, dados2$horas_atividade)
+# as variaveis possuem uma correlacao classificada como muito forte
+#podendo dar continuidade ao modelo de regressao
+corrplot(cor(dados2))
+
+#b)
+plot(dados2$horas_tv, dados2$horas_atividade,
+     xlab = "Quantidade de horas tv",
+     ylab = "Horas atividade",
+     main = "Gráfico de Dispersão com Reta de
+Regressão")
+
+modelo <- lm(horas_tv ~ horas_atividade, data =
+               dados2)
+abline(modelo, col = "red")
+
+#c)
+summary(modelo)
+# dano ecologico = 2+ 1,7143. quantidade de poluente + E
+
+#d) 
+#R² = 0,9524 indica que o modelo se ajustou bem,
+#a variavel quantidade de oluentes explica95,24%
+#resultado do dano ecologico,ou, de forma ajustada,
+#exlica 94,04% o dano ecologico
+
+#teste F : o p-value do teste F resultou em 0,0008642, menor do que
+# 5%, o que indica que a hipotese nula foi rejeitada, ou seja o 
+#modelo é significativo
+
+#e) Previsão
+nova_obs <- data.frame(Qtd_Poluente = 9)
+previsão <- predict(modelo, newdata = nova_obs)
+previsão
+# Se a quantidade de poluente foi 9ug/L, espera-se
+# que o dano ecologico seja de 17.42857, sendo classificado como 18. 
