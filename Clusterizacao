@@ -1,0 +1,39 @@
+data("mtcars")
+
+dados <- mtcars[,c(1,2,4,7,10,11)]
+
+dados_padronizados <- scale(dados)
+
+fviz_nbclust(dados_padronizados, kmeans,
+                method = "wss")
+
+fviz_nbclust(dados_padronizados, kmeans,
+             method = "wss") +
+  geom_vline(xintercept = 3, linetype = 2)
+
+set.seed(123)
+km.res <- kmeans(dados_padronizados, 3,
+                 nstart=25)
+km.res
+fviz_cluster(km.res, dados_padronizados,
+             ellipse.type="norm")
+
+grupo_clusters <- km.res$cluster
+mtcars2 <- cbind(mtcars, Cluster = grupo_clusters)
+
+novo_carro <- data.frame(mpg = 25.0, cyl = 4,
+                            disp = 150, hp = 95, drat = 3.85, wt = 2.6,
+                            qsec = 18.5, vs = 1, am = 1, gear = 4, carb = 2)
+mtcars3 <- rbind(mtcars, novo_carro)
+rownames(mtcars3)[nrow(mtcars3)] <-
+  "NovoCarro"
+
+dados <- mtcars3[,c(1,2,4,7,10,11)]
+dados_padronizados <- scale(dados)
+
+set.seed(123)
+km.res <- kmeans(dados_padronizados, 3,
+                 nstart=25)
+
+grupo_clusters <- km.res$cluster
+mtcars4 <- cbind(mtcars3, Cluster = grupo_clusters)
